@@ -1,0 +1,12 @@
+*.iml
+/android/.gradle
+/local.properties
+/build
+/android/.idea
+/gradle
+/node_modules
+/android/build
+ios/build
+/android/app/build
+.idea/
+ios/Pods
