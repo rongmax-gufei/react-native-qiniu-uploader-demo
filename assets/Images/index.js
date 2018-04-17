@@ -16,4 +16,4 @@ module.exports = {
     userIcon:require('./userIcon.png'),
 	pwdIcon:require('./pwdIcon.png'),
 	refresh:require('./refresh.png')
-}
+};

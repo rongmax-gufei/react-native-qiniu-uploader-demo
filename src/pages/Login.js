@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {View, Image, Keyboard} from 'react-native'
-import {Container, InputWrapper, Input, InputItem, Button, StatusModal} from '../components'
+import {Container, InputWrapper, Input, Button, StatusModal} from '../components'
 import images from '../../assets/images'
 import {Actions} from 'react-native-router-flux'
 import {observer, inject} from 'mobx-react/native'

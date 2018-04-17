@@ -3,7 +3,8 @@ import {Scene, Stack, Router} from 'react-native-router-flux'
 import {
     Launch,
     Login,
-    Home
+    Home,
+    Mine
 } from './pages'
 
 export const RKey = {

@@ -3,6 +3,7 @@ import StatusStore from './StatusModal'
 import {RESPONSE_CODE} from '../config/setting'
 
 class Login {
+
     @observable username = ''
     @observable password = ''
     @observable userErrorMsg = ''
