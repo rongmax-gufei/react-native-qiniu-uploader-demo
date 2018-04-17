@@ -1,187 +1,58 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-'use strict'
+import React, {Component} from 'react'
+import {Platform, BackHandler, ToastAndroid} from 'react-native'
+import {Actions} from 'react-native-router-flux'
+import {Provider} from 'mobx-react'
 
-import React, { Component } from 'react'
-import {
-  DeviceEventEmitter,
-  NativeAppEventEmitter,
-  NativeModules,
-  AppState,
-  Platform,
-  StyleSheet,
-  Text,
-  Button,
-  PixelRatio,
-  TouchableOpacity,
-  Image,
-  Alert,
-  View
-} from 'react-native'
+import Router, {RKey} from './src/routes'
+import stores from './src/stores/index'
 
-import { RtcEngine } from 'react-native-qiniu-uploader'
-import ImagePicker from 'react-native-image-picker'
+import './src/libs/globe'
+import './src/libs/utils'
+
+global.__IOS__ = Platform.OS === 'ios'
+global.__ANDROID__ = Platform.OS === 'android'
+
+if (!__DEV__) {
+    global.console = {
+        log: () => {},
+        error: () => {},
+        warn: () => {},
+    }
+}
 
 export default class App extends Component {
 
-  componentWillMount() {
-    const options = {
-      token: '111',
-      useHttps: true,// useHttps:使用https=true，否则false
-      zoneTarget: 1 // zoneTarget:华东1,华北2,华南3,北美4
+    componentWillMount() {
+        if(__ANDROID__) BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
     }
-    RtcEngine.init(options)
-  }
-
-  componentDidMount() {
-    //所有的原生通知统一管理
-    RtcEngine.eventEmitter({
-      onUploading: (data) => {
-          console.log(data);
-      },
-      onComplete: (data) => {
-          console.log(data)
-      },
-      onError: (data) => {
-          console.log(data);
-      }
-    })
-  }
-
-  componentWillUnmount() {
-    RtcEngine.removeEmitter()
-  }
-
-  onButtonPress = (type) => {
-    switch(type) {
-      case 1:
-        RtcEngine.uploadFileToQiniu(this.state.avatarSource, 'myvideo')
-        break
-      case 2:
-        RtcEngine.cancelUploadTask()
-        break
+     
+    componentWillUnmount() {
+        if(__ANDROID__) BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
     }
-  }
 
-  state = {
-    avatarSource: null,
-    videoSource: null
-  };
-
-  selectPhotoTapped() {
-
-    const options = {
-      quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
-      storageOptions: {
-        skipBackup: true
-      }
-    };
-
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled photo picker');
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        let source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.setState({
-          avatarSource: source
-        });
-      }
-    });
-  }
-
-  selectVideoTapped() {
-    const options = {
-      title: 'Video Picker',
-      takePhotoButtonTitle: 'Take Video...',
-      mediaType: 'video',
-      videoQuality: 'medium'
-    };
-
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled video picker');
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        this.setState({
-          videoSource: response.uri
-        });
-      }
-    });
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Button
-          onPress={this.onButtonPress.bind(this, 1)}
-          title="上传文件"/>
-          <Button
-          onPress={this.onButtonPress.bind(this, 2)}
-          title="取消上传"/>
-          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-          <View style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
-          { this.state.avatarSource === null ? <Text>Select a Photo</Text> :
-            <Image style={styles.avatar} source={this.state.avatarSource} />
-          }
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}>
-          <View style={[styles.avatar, styles.avatarContainer]}>
-            <Text>Select a Video</Text>
-          </View>
-        </TouchableOpacity>
-
-        { this.state.videoSource &&
-          <Text style={{margin: 8, textAlign: 'center'}}>{this.state.videoSource}</Text>
+    onBackAndroid = () => {
+        let currentRoutes = Actions.state.routes
+        let currentRoute = currentRoutes[0].routeName
+        let bTopPage = currentRoutes.length <= 1
+        let sTargetPage = (currentRoute ===  RKey.LOGIN || currentRoute === RKey.HOME_NAV)
+        if(sTargetPage && sTargetPage) {
+            if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+                //最近2秒内按过back键，可以退出应用。
+                BackHandler.exitApp()
+                return false
+            }
+            this.lastBackPressed = Date.now();
+            ToastAndroid.show('再按一次退出应用', ToastAndroid.SHORT)
+            return true;
+        } else {
+            Actions.pop()
+            return true;
         }
-      </View>
-    )
-  }
-}
+    }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  avatarContainer: {
-    borderColor: '#9B9B9B',
-    borderWidth: 1 / PixelRatio.get(),
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  avatar: {
-    borderRadius: 75,
-    width: 150,
-    height: 150
-  }
-});
+    render() {
+        return (<Provider {...stores}>
+                    <Router />
+                </Provider>)
+    }
+}
