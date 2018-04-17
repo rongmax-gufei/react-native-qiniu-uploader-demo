@@ -14,7 +14,7 @@ class Login {
         this.username = username
     }
 
-    @action 
+    @action
     setPassword = (password) => {
         this.password = password
     }
@@ -36,7 +36,7 @@ class Login {
      * @param success callback
      * @param failback fail callback
      */
-    @action 
+    @action
     loginByTeacher = (userData, success, failback) => {
 
         let options = {method: 'POST', data: userData}
