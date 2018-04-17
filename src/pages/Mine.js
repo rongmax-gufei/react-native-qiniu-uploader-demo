@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {ScrollView, View, Text, Image, TouchableOpacity, Alert} from 'react-native'
 import {Container, THeader, TFooter, InfoItem} from '../components'
-import Images from 'imagesCustom'
+import Images from '../../assets/images'
 import {Actions} from 'react-native-router-flux'
 import {observer, inject} from 'mobx-react/native'
 import {RKey} from "../routes";

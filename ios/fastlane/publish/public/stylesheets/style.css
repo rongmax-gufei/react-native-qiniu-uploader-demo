@@ -1,0 +1,18 @@
+body { font-family: helvetica, arial, verdana, sans-serif; font-size: 83%; text-align: center; }
+/* General typography */
+p { margin: 1em 0; line-height: 150%; }
+li { margin: .6em 0; line-height: 150%; }
+h1, h2, h3, h4, h5, h6 { margin: .5em 0; }
+h1 { font-size: 2em; }
+h2 { font-size: 1.7em; }
+h3 { font-size: 1.5em; }
+a:link, a:visited { text-decoration: none; color: #105cb6; }
+a:hover, a:active { text-decoration: none; background: #E6F1FF; color: #105cb6 }
+table.data { border-collapse: collapse; border-top: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; width: 100%; }
+table.data tr:nth-child(2n) { background: #f0f0f0; }
+table.data td { padding: 6px; border-bottom: 1px solid #e0e0e0; }
+/* Layout elements */
+div#container { width: 800px; margin-left: auto; margin-right: auto; text-align: left; }
+ul#top_nav { list-style-type: none; overflow: hidden; }
+ul#top_nav li { float: left; margin-right: 8px; font-size: 1.4em; margin-right: 1.6em; }
+/* Specific pages */

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Image} from 'react-native'
 import {Container} from '../components'
-import Images from 'imagesCustom'
+import Images from '../../assets/images'
 import {Actions} from 'react-native-router-flux'
 import {RKey} from '../routes'
 

@@ -1,0 +1,81 @@
+#!/usr/bin/env node
+
+const {readdirSync, writeFileSync} = require('fs')
+const path = require('path')
+const {execSync} = require('child_process')
+
+const program = require('commander')
+const packageLib = require('./package.json')
+
+const rootDir = path.resolve(__dirname)
+const assetsDir = path.join(rootDir, 'assets')
+
+program
+    .version(packageLib.version)
+    .usage('./bin [options] <command>')
+    .option('-p, --platform <platform>', '指定编译平台，默认是IOS')
+    .option('-e, --env <env>', '指定打包环境，默认是release')
+    .option('-t, --target <target>', '指定打包的目标，默认是测服')
+    .option('-c, --changelog <commit>', '填写提交的评论')
+
+program
+    .command('assets')
+    .description('write into index.js')
+    .action(assetsCmd)
+
+program
+    .command('deploy')
+    .description('build and publish to fir')
+    .action(deploy)
+
+program.parse(process.argv)
+
+function deploy() {
+    let platform = program.platform || 'IOS'
+    let env = program.env || 'release'
+    let target = program.target || 'test'
+    let commit = program.commit || (target === 'prod' ? '正服' : '测服')
+    process.env.target = target
+    if (platform.toLowerCase() === 'ios') {
+        execSync(`cd ./ios && fastlane ios ci`, {stdio: 'inherit'})
+        execSync(`fir publish ./ios/fastlane/build/qiniu.ipa -T 880c7a884b9ee8db8ba9c3b69bf8e0d9 -c ${commit}`, {stdio: 'inherit'})
+    } else if(platform.toLowerCase() === 'android') {
+        let target4Android = env === 'release' ? 'assembleRelease' : 'assembleDebug'
+        let outputPath = env === 'release' ? 'release/app-release.apk' : 'debug/app-debug.apk'
+        execSync(`cd ./android && ./gradlew clean && ./gradlew ${target4Android}`, {stdio: 'inherit'})
+        execSync(`fir publish ./android/app/build/outputs/apk/${outputPath} -T 880c7a884b9ee8db8ba9c3b69bf8e0d9 -c ${commit}`, {stdio: 'inherit'})
+    }
+}
+
+function assetsCmd() {
+    writeAssets('images')
+    writeAssets('icons')
+    console.log('write assets success')
+}
+
+function writeAssets(type) {
+    if (type !== 'images' && type !== 'icons') return
+
+    const dir = path.join(assetsDir, type)
+    const index = path.join(dir, 'index.js')
+    const moduleString = `/\*\*\n\* @providesModule ${type}Custom\n\*/\n\n`
+
+    let data = readdirSync(dir)
+
+    let obj = data.reduce((all, item) => {
+        const fileName = item.indexOf('@') > 0 ? item.split('@', 2)[0] : item.split(',', 2)[0]
+        const suffix = item.split('.', 2)[1]
+        if (!all[fileName] && fileName !== 'index.js') all[fileName] = `require(\'./${fileName}.${suffix}\')`
+        return all
+    }, {})
+
+    let string = ''
+    for (let key in obj) {
+        string += '\n\t' + key + ':' + obj[key] + ','
+    }
+
+    let result = moduleString + `module.exports = {${string}\n}`
+
+    writeFileSync(index, result)
+
+}

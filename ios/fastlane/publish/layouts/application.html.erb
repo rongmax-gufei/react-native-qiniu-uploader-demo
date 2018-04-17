@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>
+		<% if @title and !@title.empty? %>
+			<%= h @title %> - 
+		<% end %>
+		My Site
+	</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+	<% if @description and !@description.empty? %>
+		<meta name="description" content="<%= h @description %>"/>
+	<% end %>
+	
+	<!--[if !IE 6]><!-->
+	<link href="http://yui.yahooapis.com/2.8.0r4/build/reset/reset-min.css" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/style.css" rel="stylesheet" type="text/css"/>
+	<!--<![endif]-->
+
+	<!--[if lte IE 6]>
+	<link rel="stylesheet" type="text/css" media="screen, projection" href="http://universal-ie6-css.googlecode.com/files/ie6.0.3.css" />
+	<![endif]-->
+
+</head>
+
+<body>
+
+<div id="container">
+	<ul id="top_nav">
+		<% menu('main') do |item, current_page| %>
+			<!-- current_page is true if the menu item links to the current page, false otherwise.
+			It's usually not necessary, since you'll automatically get either an <a> or <span class="selected">.-->
+			<li><%= item %></li>
+		<% end %>
+	</ul>
+	
+	<%= yield %>
+</div>
+
+</body>
+</html>

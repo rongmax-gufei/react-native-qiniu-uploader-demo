@@ -1,0 +1,6 @@
+FIR_ROOT = File.expand_path(File.dirname(__FILE__))
+
+require 'rubygems'
+require 'fir'
+
+::Fir::Tasks.define

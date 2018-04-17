@@ -1,0 +1,41 @@
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+# 定义fastlane版本号
+fastlane_version "2.27.0"
+
+# 定义打包平台
+default_platform :ios
+
+# 任务脚本
+platform :ios do
+lane :ci do|options|
+branch = options[:branch]
+# 自动获取当前app版本号，并补充当前编译时间为后缀
+# build_no = get_version_number + '.' + Time.new.strftime("%m%d%H%M")
+build_no = get_version_number + '(9999)'
+
+puts "Begin to run ci"
+
+# 递增build number
+increment_build_number(build_number: build_no)
+
+# 开始打包
+gym(
+scheme: "qiniu",
+# 是否清空以前的编译信息 true：是
+clean:true,
+# 指定打包方式，Release 或者 Debug
+configuration:"Release",
+# 指定打包所使用的输出方式，目前支持app-store, package, ad-hoc, enterprise, development
+export_options: {compileBitcode: false, method: "development"},
+# 指定输出文件夹
+output_directory:"./fastlane/build",
+)
+
+# 使用fir-cli上传ipa
+# 请将qiniu改成你项目要打包的名称
+# 请将-T后的数字更改为在fir申请的APIToken
+# sh "fir publish ./build/qiniu.ipa -T b1442ac8c492da2a6ead38590e0a0e10 -c " + ENV["CHANGE_LOG"] + ' -s ' + ENV["SHORT"]
+
+end
+end
