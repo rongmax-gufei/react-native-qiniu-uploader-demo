@@ -38,12 +38,12 @@ function deploy() {
     process.env.target = target
     if (platform.toLowerCase() === 'ios') {
         execSync(`cd ./ios && fastlane ios ci`, {stdio: 'inherit'})
-        execSync(`fir publish ./ios/fastlane/build/qiniu.ipa -T 880c7a884b9ee8db8ba9c3b69bf8e0d9 -c ${commit}`, {stdio: 'inherit'})
+        execSync(`fir publish ./ios/fastlane/build/qiniu.ipa -T b1442ac8c492da2a6ead38590e0a0e10 -c ${commit}`, {stdio: 'inherit'})
     } else if(platform.toLowerCase() === 'android') {
         let target4Android = env === 'release' ? 'assembleRelease' : 'assembleDebug'
         let outputPath = env === 'release' ? 'release/app-release.apk' : 'debug/app-debug.apk'
         execSync(`cd ./android && ./gradlew clean && ./gradlew ${target4Android}`, {stdio: 'inherit'})
-        execSync(`fir publish ./android/app/build/outputs/apk/${outputPath} -T 880c7a884b9ee8db8ba9c3b69bf8e0d9 -c ${commit}`, {stdio: 'inherit'})
+        execSync(`fir publish ./android/app/build/outputs/apk/${outputPath} -T b1442ac8c492da2a6ead38590e0a0e10 -c ${commit}`, {stdio: 'inherit'})
     }
 }
 

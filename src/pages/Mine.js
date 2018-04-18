@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {ScrollView, View, Text, Image, TouchableOpacity, Alert} from 'react-native'
-import {Container, THeader, TFooter, InfoItem} from '../components'
+import {Container, InfoItem} from '../components'
 import Images from '../../assets/images'
 import {Actions} from 'react-native-router-flux'
 import {observer, inject} from 'mobx-react/native'
@@ -46,7 +46,6 @@ export default class Mine extends Component {
         const {username, userAvatar, mobile} = this.props.UserInfoStore
 
         return <Container>
-            <THeader>个人</THeader>
             <ScrollView style={containerStyle}>
                 <InfoItem itemStyle={avatorItemStyle} canPress>
                     <Text style={textStyle}>头像</Text>
@@ -71,7 +70,6 @@ export default class Mine extends Component {
                     <Text style={textStyle}>退出登录</Text>
                 </TouchableOpacity>
             </ScrollView>
-            <TFooter activeRoute='tCenter' />
         </Container>
     }
 }

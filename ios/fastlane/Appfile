@@ -1,8 +1,8 @@
-app_identifier "com.learntask2gen" # The bundle identifier of your app
-apple_id "apple@learnta.com" # Your Apple email address
+app_identifier "com.wild.qiniu" # The bundle identifier of your app
+apple_id "gxcj@gongxiangcj.com" # Your Apple email address
 
-itc_team_id "118804364" # iTunes Connect Team ID
-team_id "Z4Q2D6MMMF" # Developer Portal Team ID
+itc_team_id "1330353052" # iTunes Connect Team ID
+team_id "5XKAFP4BA5" # Developer Portal Team ID
 
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile
