@@ -20,12 +20,15 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		1844C4CE208702C20051925E /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 186BD731207F21BC00A640FE /* libRNImagePicker.a */; };
+		1844C592208706CD0051925E /* RCTQiniu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844C591208706CD0051925E /* RCTQiniu.m */; };
+		1844C5B4208731D40051925E /* QiniuLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844C5B2208731D40051925E /* QiniuLoad.m */; };
+		1844C5B820875F400051925E /* QNTempFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844C5B720875F400051925E /* QNTempFile.m */; };
 		186BD6F9207F11A900A640FE /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 186BD6F8207F116100A640FE /* libReactNativePermissions.a */; };
 		238C580C86F7DDDCFA1791F8 /* libPods-RNQiniuUploader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2244FF30ACA16D3DB0AACFCE /* libPods-RNQiniuUploader.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		BB1940A2F5EB4782AB7DE0D8 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CD9D2C87E084D1D999A472F /* libRNImagePicker.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,13 +87,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
-		};
-		1844C420208667500051925E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3F2043964BA34F4491C32779 /* RCTQiniu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 189FC10D2084732300AE7944;
-			remoteInfo = RCTQiniu;
 		};
 		186BD6F7207F116100A640FE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -328,19 +324,22 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RNQiniuUploader/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RNQiniuUploader/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		1844C58F208706CD0051925E /* RCTQiniu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTQiniu.h; sourceTree = "<group>"; };
+		1844C590208706CD0051925E /* ConstHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstHeader.h; sourceTree = "<group>"; };
+		1844C591208706CD0051925E /* RCTQiniu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTQiniu.m; sourceTree = "<group>"; };
+		1844C5B2208731D40051925E /* QiniuLoad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuLoad.m; sourceTree = "<group>"; };
+		1844C5B3208731D40051925E /* QiniuLoad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuLoad.h; sourceTree = "<group>"; };
+		1844C5B620875F400051925E /* QNTempFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNTempFile.h; sourceTree = "<group>"; };
+		1844C5B720875F400051925E /* QNTempFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNTempFile.m; sourceTree = "<group>"; };
 		2244FF30ACA16D3DB0AACFCE /* libPods-RNQiniuUploader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNQiniuUploader.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B76D887B96176DC85171790 /* Pods-RNQiniuUploader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNQiniuUploader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RNQiniuUploader/Pods-RNQiniuUploader.debug.xcconfig"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		303D1C7263AFE34C6E6A1AAA /* Pods-RNQiniuUploader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNQiniuUploader.release.xcconfig"; path = "Pods/Target Support Files/Pods-RNQiniuUploader/Pods-RNQiniuUploader.release.xcconfig"; sourceTree = "<group>"; };
-		3F2043964BA34F4491C32779 /* RCTQiniu.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTQiniu.xcodeproj; path = "../node_modules/react-native-qiniu-uploader/ios/RCTQiniu.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
-		7CD9D2C87E084D1D999A472F /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		934729BABABB43BE98E3334A /* libReactNativePermissions.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePermissions.a; sourceTree = "<group>"; };
 		97790DF8E6244262BD17636F /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		A339D221B5A0478AB3E64586 /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ios/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
-		ACEAD82E10654965AC6B8CE5 /* libRCTQiniu.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTQiniu.a; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -349,6 +348,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186BD6F9207F11A900A640FE /* libReactNativePermissions.a in Frameworks */,
+				1844C4CE208702C20051925E /* libRNImagePicker.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -362,8 +363,6 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				186BD6F9207F11A900A640FE /* libReactNativePermissions.a in Frameworks */,
-				BB1940A2F5EB4782AB7DE0D8 /* libRNImagePicker.a in Frameworks */,
 				238C580C86F7DDDCFA1791F8 /* libPods-RNQiniuUploader.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +444,7 @@
 		13B07FAE1A68108700A75B9A /* RNQiniuUploader */ = {
 			isa = PBXGroup;
 			children = (
+				1844C58E208706CD0051925E /* RCTQiniu */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -479,22 +479,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1844C4112086674F0051925E /* Products */ = {
+		1844C58E208706CD0051925E /* RCTQiniu */ = {
 			isa = PBXGroup;
 			children = (
-				1844C421208667500051925E /* libRCTQiniu.a */,
+				1844C5B620875F400051925E /* QNTempFile.h */,
+				1844C5B720875F400051925E /* QNTempFile.m */,
+				1844C5B3208731D40051925E /* QiniuLoad.h */,
+				1844C5B2208731D40051925E /* QiniuLoad.m */,
+				1844C58F208706CD0051925E /* RCTQiniu.h */,
+				1844C591208706CD0051925E /* RCTQiniu.m */,
+				1844C590208706CD0051925E /* ConstHeader.h */,
 			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		186BD6CE207F115F00A640FE /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				934729BABABB43BE98E3334A /* libReactNativePermissions.a */,
-				7CD9D2C87E084D1D999A472F /* libRNImagePicker.a */,
-				ACEAD82E10654965AC6B8CE5 /* libRCTQiniu.a */,
-			);
-			name = "Recovered References";
+			name = RCTQiniu;
+			path = "../../../react-native-qiniu-uploader.git/ios/RCTQiniu";
 			sourceTree = "<group>";
 		};
 		186BD6F4207F116000A640FE /* Products */ = {
@@ -557,7 +554,6 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				A339D221B5A0478AB3E64586 /* ReactNativePermissions.xcodeproj */,
 				97790DF8E6244262BD17636F /* RNImagePicker.xcodeproj */,
-				3F2043964BA34F4491C32779 /* RCTQiniu.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -578,7 +574,6 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				186BD6CE207F115F00A640FE /* Recovered References */,
 				0E9C0C146D84991C5978E525 /* Pods */,
 			);
 			indentWidth = 2;
@@ -682,10 +677,6 @@
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
 				{
-					ProductGroup = 1844C4112086674F0051925E /* Products */;
-					ProjectRef = 3F2043964BA34F4491C32779 /* RCTQiniu.xcodeproj */;
-				},
-				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 				},
@@ -776,13 +767,6 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1844C421208667500051925E /* libRCTQiniu.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTQiniu.a;
-			remoteRef = 1844C420208667500051925E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		186BD6F8207F116100A640FE /* libReactNativePermissions.a */ = {
@@ -1086,8 +1070,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1844C5B4208731D40051925E /* QiniuLoad.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				1844C5B820875F400051925E /* QNTempFile.m in Sources */,
+				1844C592208706CD0051925E /* RCTQiniu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1120,12 +1107,16 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-qiniu-uploader/ios/RCTQiniu/RCTQiniu",
 					"$(SRCROOT)/../node_modules/react-native-qiniu-uploader/ios/RCTQiniu/**",
+					"$(SRCROOT)/../node_modules/react-native-qiniu-uploader/ios/RCTQiniu",
+					"$(SRCROOT)/../node_modules/react-native-qiniu-uploader/ios/RCTQiniu",
+					"$(SRCROOT)/../node_modules/react-native-qiniu-uploader/ios/RCTQiniu",
 				);
 				INFOPLIST_FILE = RNQiniuUploader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/RNQiniuUploader\"",
 					"\"$(SRCROOT)/RNQiniuUploader\"",
 					"\"$(SRCROOT)/RNQiniuUploader\"",
 					"\"$(SRCROOT)/RNQiniuUploader\"",
@@ -1155,12 +1146,16 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-qiniu-uploader/ios/RCTQiniu/RCTQiniu",
 					"$(SRCROOT)/../node_modules/react-native-qiniu-uploader/ios/RCTQiniu/**",
+					"$(SRCROOT)/../node_modules/react-native-qiniu-uploader/ios/RCTQiniu",
+					"$(SRCROOT)/../node_modules/react-native-qiniu-uploader/ios/RCTQiniu",
+					"$(SRCROOT)/../node_modules/react-native-qiniu-uploader/ios/RCTQiniu",
 				);
 				INFOPLIST_FILE = RNQiniuUploader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/RNQiniuUploader\"",
 					"\"$(SRCROOT)/RNQiniuUploader\"",
 					"\"$(SRCROOT)/RNQiniuUploader\"",
 					"\"$(SRCROOT)/RNQiniuUploader\"",

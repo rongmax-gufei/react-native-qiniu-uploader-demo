@@ -35,7 +35,7 @@ export default class App extends Component {
         let currentRoute = currentRoutes[0].routeName
         let bTopPage = currentRoutes.length <= 1
         let sTargetPage = (currentRoute ===  RKey.LOGIN || currentRoute === RKey.HOME_NAV)
-        if(sTargetPage && sTargetPage) {
+        if(bTopPage && sTargetPage) {
             if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
                 //最近2秒内按过back键，可以退出应用。
                 BackHandler.exitApp()

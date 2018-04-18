@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {View, Image, Keyboard} from 'react-native'
 import {Container, InputWrapper, Input, Button, StatusModal} from '../components'
-import images from '../../assets/images'
+import icons from '../../assets/icons'
 import {Actions} from 'react-native-router-flux'
 import {observer, inject} from 'mobx-react/native'
 import {RKey} from '../routes'
@@ -10,6 +10,19 @@ import {SYSTEM_IDS} from '../config/setting';
 @inject('LoginStore', 'UserInfoStore', 'StatusModalStore')
 @observer
 export default class Login extends Component {
+
+    componentDidMount() {
+        storage.load({
+            key: 'user'
+        }).then(data => {
+            if(data.isTeacher) {
+                this.changeUsername(data.account)
+                this.changePwd(data.password)
+            }
+        }).catch((err) => {
+            console.log("pages/Login.js load user info error:" + err)
+        })
+    }
 
     changeUsername(username) {
         const {setUsername} = this.props.LoginStore
@@ -68,7 +81,7 @@ export default class Login extends Component {
         setTeacherInfo(response, () => {
             resetMsgInfo()
             setModalStatus(false)
-            console.log('socket init with token', response.access_token)
+            console.log('token', response.access_token)
             Actions.reset(RKey.HOME_NAV)
         })
     }
@@ -110,7 +123,7 @@ export default class Login extends Component {
             <View style={containerStyle}>
                 <View style={contentStyle} onStartShouldSetResponder={this.containerTouched.bind(this)}>
                     <InputWrapper>
-                        <Image source={images.userIcon} style={inputIconStyle}/>
+                        <Image source={icons.userIcon} style={inputIconStyle}/>
                         <Input
                             placeholder={'请输入账号'}
                             value={username}
@@ -120,21 +133,22 @@ export default class Login extends Component {
                             onFocus={this.onFocusInput.bind(this)}
                         />
                     </InputWrapper>
+                    <View style={{marginTop:10}}/>
+                    <InputWrapper>
+                        <Image source={icons.pwdIcon} style={inputIconStyle}/>
+                        <Input
+                            placeholder={'请输入密码'}
+                            secureTextEntry
+                            value={password}
+                            onChangeText={this.changePwd.bind(this)}
+                            onFocus={this.onFocusInput.bind(this)}
+                        />
+                    </InputWrapper>
+                    <View style={buttonWrapperStyle}>
+                        <Button onPress={this.submit.bind(this)}>登录</Button>
+                    </View>
+                    <StatusModal text={'正在登录'} visible={modalVisible}/>
                 </View>
-                <InputWrapper>
-                    <Image source={images.pwdIcon} style={inputIconStyle}/>
-                    <Input
-                        placeholder={'请输入密码'}
-                        secureTextEntry
-                        value={password}
-                        onChangeText={this.changePwd.bind(this)}
-                        onFocus={this.onFocusInput.bind(this)}
-                    />
-                </InputWrapper>
-                <View style={buttonWrapperStyle}>
-                    <Button onPress={this.submit.bind(this)}>登录</Button>
-                </View>
-                <StatusModal text={'正在登录'} visible={modalVisible}/>
             </View>
         </Container>
     }
@@ -149,11 +163,6 @@ const styles = {
         flex: 1,
         paddingHorizontal: 30,
         paddingTop: 115,
-    },
-    logoWrapperStyle: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 25
     },
     inputIconStyle: {
         width: 19,

@@ -46,10 +46,8 @@ class Login {
 
             let data = resp.data
 
-            // LOGIN TO AIR
             if(resp.code === RESPONSE_CODE.SUCCESS){
                 success(resp)
-                // Socket.init()
             }
             else {
                 failback(resp)

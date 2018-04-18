@@ -16,14 +16,18 @@ import {
   View
 } from 'react-native'
 
-import { RtcEngine } from 'react-native-qiniu-uploader'
+import {observer, inject} from 'mobx-react/native'
+
+import { RtcEngine } from '../libs/qiniu'
 import ImagePicker from 'react-native-image-picker'
 
+
+@inject('UserInfoStore', 'StatusModalStore')
+@observer
 export default class Home extends Component {
 
   componentWillMount() {
     const options = {
-      token: '111',
       useHttps: true,// useHttps:使用https=true，否则false
       zoneTarget: 1 // zoneTarget:华东1,华北2,华南3,北美4
     }
@@ -52,7 +56,12 @@ export default class Home extends Component {
   onButtonPress = (type) => {
     switch(type) {
       case 1:
-        RtcEngine.uploadFileToQiniu(this.state.avatarSource, 'myvideo')
+          const {getUploadToken} = this.props.UserInfoStore
+          const {setModalStatus} = this.props.StatusModalStore
+          setModalStatus(true)
+          getUploadToken(null, data => {
+              RtcEngine.uploadFileToQiniu(data.uptoken, this.state.avatarSource, 'video_test')
+          })
         break
       case 2:
         RtcEngine.cancelUploadTask()
@@ -94,6 +103,7 @@ export default class Home extends Component {
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
+          console.log("image picker response:"+ response)
         this.setState({
           avatarSource: source
         });
@@ -122,6 +132,7 @@ export default class Home extends Component {
         console.log('User tapped custom button: ', response.customButton);
       }
       else {
+        console.log("video picker response:"+ response)
         this.setState({
           videoSource: response.uri
         });

@@ -8,7 +8,9 @@ import {RKey} from '../routes'
 export default class Launch extends Component {
 
     componentDidMount() {
-        Actions.reset(RKey.LOGIN)
+        setTimeout(()=>{
+            Actions.reset(RKey.LOGIN)
+        }, 2000)
     }
 
     render() {
