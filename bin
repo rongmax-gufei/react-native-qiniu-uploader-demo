@@ -38,7 +38,7 @@ function deploy() {
     process.env.target = target
     if (platform.toLowerCase() === 'ios') {
         execSync(`cd ./ios && fastlane ios ci`, {stdio: 'inherit'})
-        execSync(`fir publish ./ios/fastlane/build/qiniu.ipa -T b1442ac8c492da2a6ead38590e0a0e10 -c ${commit}`, {stdio: 'inherit'})
+        execSync(`fir publish ./ios/fastlane/build/RNQiniuUploader.ipa -T b1442ac8c492da2a6ead38590e0a0e10 -c ${commit}`, {stdio: 'inherit'})
     } else if(platform.toLowerCase() === 'android') {
         let target4Android = env === 'release' ? 'assembleRelease' : 'assembleDebug'
         let outputPath = env === 'release' ? 'release/app-release.apk' : 'debug/app-debug.apk'

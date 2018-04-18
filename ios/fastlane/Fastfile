@@ -11,8 +11,8 @@ platform :ios do
 lane :ci do|options|
 branch = options[:branch]
 # 自动获取当前app版本号，并补充当前编译时间为后缀
-# build_no = get_version_number + '.' + Time.new.strftime("%m%d%H%M")
-build_no = get_version_number + '(9999)'
+build_no = get_version_number + '.' + Time.new.strftime("%m%d%H%M")
+# build_no = get_version_number + '(9999)'
 
 puts "Begin to run ci"
 
@@ -21,7 +21,7 @@ increment_build_number(build_number: build_no)
 
 # 开始打包
 gym(
-scheme: "qiniu",
+scheme: "RNQiniuUploader",
 # 是否清空以前的编译信息 true：是
 clean:true,
 # 指定打包方式，Release 或者 Debug
@@ -33,9 +33,9 @@ output_directory:"./fastlane/build",
 )
 
 # 使用fir-cli上传ipa
-# 请将qiniu改成你项目要打包的名称
-# 请将-T后的数字更改为在fir申请的APIToken
-# sh "fir publish ./build/qiniu.ipa -T b1442ac8c492da2a6ead38590e0a0e10 -c " + ENV["CHANGE_LOG"] + ' -s ' + ENV["SHORT"]
+# 请将 => 'RNQiniuUploader' 改成你项目要打包的名称
+# 请将 -T 后的数字更改为在 fir.im 申请的ApiToken
+# sh "fir publish ./build/RNQiniuUploader.ipa -T b1442ac8c492da2a6ead38590e0a0e10 -c " + ENV["CHANGE_LOG"] + ' -s ' + ENV["SHORT"]
 
 end
 end
