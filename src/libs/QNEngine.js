@@ -6,7 +6,7 @@ import {
 const { Qiniu } = NativeModules
 const qnEmitter = new NativeEventEmitter(Qiniu);
 
-export default {
+export const QNEngine = {
     ...Qiniu,
     init(options = {}) {
         this.listener && this.listener.remove();

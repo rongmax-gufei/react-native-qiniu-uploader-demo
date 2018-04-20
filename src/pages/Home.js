@@ -10,15 +10,12 @@ import {
     StyleSheet,
     Text,
     Button,
-    PixelRatio,
-    TouchableOpacity,
-    Image,
     View
 } from 'react-native'
 
 import {observer, inject} from 'mobx-react/native'
 import {Toast} from 'antd-mobile'
-import {RtcEngine} from '../libs/qiniu'
+import {QNEngine} from '../libs/QNEngine'
 import ImagePicker from 'react-native-image-picker'
 
 @inject('UserInfoStore', 'StatusModalStore')
@@ -27,58 +24,93 @@ export default class Home extends Component {
 
     componentDidMount() {
         //所有的原生通知统一管理
-        RtcEngine.eventEmitter({
-            onUploading: (data) => {
+        QNEngine.eventEmitter({
+            onProgress: (data) => {
                 console.log(data);
+                this.setState({
+                    percent: data.percent,
+                    taskStatus: 1,
+                    taskText: '上传中（' + data.percent + '），点击可暂停'
+                });
             },
             onComplete: (data) => {
                 console.log(data)
-                switch (data.code) {
-                    case '1000':
-                        Toast.success('上传完成', 2)
-                        break;
-                    default:
-                        Toast.fail(data.msg, 2)
-                        break;
-                }
+                this.resetStatus()
+                Toast.success('上传完成', 2)
             },
             onError: (data) => {
                 console.log(data);
-                Toast.fail(data.msg, 2)
+                switch (data.code) {
+                    case '-2':
+                        Toast.info('任务已暂停', 2)
+                        break;
+                    default:
+                        Toast.fail('错误：'+data.msg, 2)
+                        break;
+                }
             }
         })
     }
 
     componentWillUnmount() {
-        RtcEngine.removeEmitter()
+        QNEngine.removeEmitter()
     }
 
-    onButtonPress = (type) => {
-        switch (type) {
-            case 1:
+    onButtonPress = () => {
+        let status = this.state.taskStatus
+        switch (status) {
+            case 0:
+                // 未开始上传和已经上传完成
                 const {getUploadToken} = this.props.UserInfoStore
                 const {setModalStatus} = this.props.StatusModalStore
                 setModalStatus(true)
                 getUploadToken(null, data => {
                     /**
                      * @param filePath:文件路径
-                     * @param key:文件名（唯一，不能重复）
-                     * @param token:上传token，服务端获取或本地生成
+                     * @param upKey:文件名（唯一，不能重复）
+                     * @param upToken:上传token，服务端获取或本地生成
                      * @param zone:上传至指定区域：华东1,华北2,华南3,北美4
                      */
-                    RtcEngine.uploadFileToQNFilePath(this.state.uri, 'file_' + Math.random(), data.uptoken, 1)
+                    const params = {
+                        filePath: this.state.uri,
+                        upKey: 'file_' + Math.random(),
+                        upToken:data.uptoken,
+                        zone: 1 //
+                    }
+                    QNEngine.setParams(params)
+                    QNEngine.startTask()
                 })
                 break
+            case 1:
+                // 正在上传，点击后暂停
+                QNEngine.pauseTask()
+                this.setState({
+                    taskStatus: 2,
+                    taskText: '已暂停，点击继续'
+                });
+                break;
             case 2:
-                RtcEngine.cancelUploadTask()
+                // 已经暂停，点击后恢复上传
+                QNEngine.resumeTask()
                 break
         }
     }
 
     state = {
         uri: null,
-        percent: null
+        percent: '',
+        taskStatus: 0, //0:未开始 1：进行中 2：已暂停 3：已完成
+        taskText: '开始上传'
     };
+
+    resetStatus() {
+        this.setState({
+            uri: null,
+            percent: '',
+            taskStatus: 0, //0:未开始 1：进行中 2：已暂停 3：已完成
+            taskText: '开始上传'
+        });
+    }
 
     selectPhotoTapped() {
 
@@ -127,27 +159,14 @@ export default class Home extends Component {
         return (
             <View style={styles.container}>
                 <Button
-                    onPress={this.onButtonPress.bind(this, 1)}
-                    title="上传文件"/>
+                    onPress={this.selectPhotoTapped.bind(this)}
+                    title='选图片'/>
                 <Button
-                    onPress={this.onButtonPress.bind(this, 2)}
-                    title="取消上传"/>
-                <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-                    <View style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
-                        {this.state.uri === null ? <Text>图片</Text> :
-                            <Image style={styles.avatar} source={{uri: this.state.uri}}/>
-                        }
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}>
-                    <View style={[styles.avatar, styles.avatarContainer]}>
-                        <Text>视频</Text>
-                    </View>
-                </TouchableOpacity>
-                {this.state.percent &&
-                <Text style={{margin: 8, textAlign: 'center'}}>{this.state.percent}</Text>
-                }
+                    onPress={this.selectVideoTapped.bind(this)}
+                    title='选视频'/>
+                <Button
+                    onPress={this.onButtonPress.bind(this)}
+                    title={this.state.taskText}/>
                 {this.state.uri &&
                 <Text style={{margin: 8, textAlign: 'center'}}>{this.state.uri}</Text>
                 }
@@ -162,16 +181,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
-    },
-    avatarContainer: {
-        borderColor: '#9B9B9B',
-        borderWidth: 1 / PixelRatio.get(),
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    avatar: {
-        borderRadius: 75,
-        width: 150,
-        height: 150
     }
 });
