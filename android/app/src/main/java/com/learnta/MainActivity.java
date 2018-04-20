@@ -1,4 +1,4 @@
-package com.rnqiniuuploader;
+package com.learnta;
 
 import com.facebook.react.ReactActivity;
 
