@@ -18,11 +18,11 @@ export const RKey = {
 
 const ROUTER = () => (<Router>
   <Stack key={RKey.ROOT}>
-    <Scene key={RKey.LAUNCH} initial={true} component={Launch} hideNavBar={true} />
-    <Scene key={RKey.LOGIN} component={Login} hideNavBar={true} />
-    <Scene tabs key={RKey.HOME_NAV} hideTabBar={true} swipeEnabled={false}>
-      <Scene key={RKey.HOME} component={Home} hideNavBar={true} swipeEnabled={false}/>
-      <Scene key={RKey.MINE} component={Mine} hideNavBar={true} />
+    <Scene key={RKey.LAUNCH} initial component={Launch} hideNavBar />
+    <Scene key={RKey.LOGIN} component={Login} hideNavBar />
+    <Scene tabs key={RKey.HOME_NAV} hideTabBar swipeEnabled={false}>
+      <Scene key={RKey.HOME} component={Home} hideNavBar swipeEnabled={false}/>
+      <Scene key={RKey.MINE} component={Mine} hideNavBar />
     </Scene>
   </Stack>
 </Router>)

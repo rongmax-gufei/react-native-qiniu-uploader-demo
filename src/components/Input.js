@@ -4,29 +4,31 @@ import images from '../../assets/images'
 
 const Input = ({placeholder, secureTextEntry, keyType, value, onChangeText, onFocus, selfStyle}) => {
     const {
-        wrapperStyle, 
-        inputStyle, 
+        wrapperStyle,
+        inputStyle,
         delIconWrapperStyle,
         delIconStyle
     } = styles
 
     return <View style={wrapperStyle}>
-        <TextInput 
-            autoCapitalize = 'none'
-            autoCorrect = {false}
-            blurOnSubmit = {true}
-            placeholder = {placeholder}
-            secureTextEntry = {secureTextEntry}
-            underlineColorAndroid = {'transparent'}
+        <TextInput
+            autoCapitalize='none'
+            autoCorrect={false}
+            blurOnSubmit={true}
+            placeholder={placeholder}
+            secureTextEntry={secureTextEntry}
+            underlineColorAndroid={'transparent'}
             keyboardType={keyType}
-            value = {value}
-            onChangeText = {onChangeText}
-            onFocus = {onFocus}
-            style = {[inputStyle, selfStyle]}
+            value={value}
+            onChangeText={onChangeText}
+            onFocus={onFocus}
+            style={[inputStyle, selfStyle]}
         />
-        {value ? <TouchableOpacity style={delIconWrapperStyle} onPress={() => {onChangeText('')}}>
-            <Image source={images.deleteIcon} style={delIconStyle} />
-        </TouchableOpacity> : <View></View>}
+        {value ? <TouchableOpacity style={delIconWrapperStyle} onPress={() => {
+            onChangeText('')
+        }}>
+            <Image source={images.deleteIcon} style={delIconStyle}/>
+        </TouchableOpacity> : <View/>}
     </View>
 }
 

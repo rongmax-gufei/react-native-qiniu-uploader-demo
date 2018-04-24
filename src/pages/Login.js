@@ -24,17 +24,17 @@ export default class Login extends Component {
         })
     }
 
-    changeUsername(username) {
+    changeUsername = (username) => {
         const {setUsername} = this.props.LoginStore
         setUsername(username)
     }
 
-    changePwd(pwd) {
+    changePwd = (pwd) => {
         const {setPassword} = this.props.LoginStore
         setPassword(pwd)
     }
 
-    submit() {
+    submit = () => {
 
         const {
             username,
@@ -71,7 +71,7 @@ export default class Login extends Component {
         }
     }
 
-    loginSuccess(response, username, password) {
+    loginSuccess = (response, username, password) => {
         const {setTeacherInfo} = this.props.UserInfoStore
         const {setModalStatus} = this.props.StatusModalStore
         const {resetMsgInfo} = this.props.LoginStore
@@ -86,25 +86,26 @@ export default class Login extends Component {
         })
     }
 
-    loginFailure(response) {
+    loginFailure = (response) => {
         const {setPwdErrorMsg} = this.props.LoginStore
 
         setPwdErrorMsg(response.message)
     }
 
-    onFocusInput() {
+    onFocusInput = () => {
         const {setUserErrorMsg, setPwdErrorMsg} = this.props.LoginStore
 
         setUserErrorMsg('')
         setPwdErrorMsg('')
     }
 
-    containerTouched() {
+    containerTouched = () => {
         Keyboard.dismiss()
         return false
     }
 
     render() {
+
         const {
             contentStyle,
             inputIconStyle,
@@ -121,7 +122,7 @@ export default class Login extends Component {
 
         return <Container>
             <View style={containerStyle}>
-                <View style={contentStyle} onStartShouldSetResponder={this.containerTouched.bind(this)}>
+                <View style={contentStyle} onStartShouldSetResponder={this.containerTouched}>
                     <InputWrapper>
                         <Image source={icons.userIcon} style={inputIconStyle}/>
                         <Input
@@ -129,8 +130,8 @@ export default class Login extends Component {
                             value={username}
                             autoCorrect={false}
                             autoCapitalize='none'
-                            onChangeText={this.changeUsername.bind(this)}
-                            onFocus={this.onFocusInput.bind(this)}
+                            onChangeText={this.changeUsername}
+                            onFocus={this.onFocusInput}
                         />
                     </InputWrapper>
                     <View style={{marginTop:10}}/>
@@ -140,12 +141,12 @@ export default class Login extends Component {
                             placeholder={'请输入密码'}
                             secureTextEntry
                             value={password}
-                            onChangeText={this.changePwd.bind(this)}
-                            onFocus={this.onFocusInput.bind(this)}
+                            onChangeText={this.changePwd}
+                            onFocus={this.onFocusInput}
                         />
                     </InputWrapper>
                     <View style={buttonWrapperStyle}>
-                        <Button onPress={this.submit.bind(this)}>登录</Button>
+                        <Button onPress={this.submit}>登录</Button>
                     </View>
                     <StatusModal text={'正在登录'} visible={modalVisible}/>
                 </View>

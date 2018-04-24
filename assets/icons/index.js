@@ -3,6 +3,7 @@
 */
 
 module.exports = {
+	addIcon:require('./addIcon.png'),
 	deleteIcon:require('./deleteIcon.png'),
 	homeAction:require('./homeAction.png'),
 	homeIcon:require('./homeIcon.png'),
