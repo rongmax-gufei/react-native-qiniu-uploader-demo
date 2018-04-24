@@ -3,7 +3,8 @@ import {
     Text,
     TouchableOpacity,
     View,
-    PixelRatio
+    PixelRatio,
+    Platform
 } from 'react-native'
 
 const UploadListItem = ({fileName, fileSize, uploadStatus}) => {
@@ -68,7 +69,7 @@ const styles = {
         justifyContent: 'center',
         borderColor: '#cccccc',
         borderRadius: 15,
-        borderWidth: (__IOS__ ? 1.0 : 1.5) / PixelRatio.get()
+        borderWidth: (Platform.OS === 'ios' ? 1.0 : 1.5) / PixelRatio.get()
     },
     uploadTextStyle: {
         fontSize: 14

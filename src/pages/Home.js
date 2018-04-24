@@ -21,10 +21,7 @@ import {Modal, Toast} from 'antd-mobile'
 import ImagePicker from 'react-native-image-picker'
 
 import {QNEngine} from '../libs/QNEngine'
-import EmptyView from '../components/EmptyView'
-import ItemSeparator from '../components/ItemSeparator'
-import UploadListItem from '../components/UploadListItem'
-import UploadHeader from '../components/UploadHeader'
+import {Container, EmptyView, ItemSeparator, UploadListItem, UploadHeader} from '../components/index'
 
 const operation = Modal.operation;
 
@@ -179,19 +176,21 @@ export default class Home extends Component {
         } = this.props.UploadStore
 
         return (
-            <FlatList
-                style={styles.containerStyle}
-                ref={ref => this.flatList = ref}
-                data={sourceData}
-                extraData={selected}
-                keyExtractor={this._keyExtractor}
-                renderItem={this._renderItem}
-                ListHeaderComponent={this._renderHeader}
-                ItemSeparatorComponent={this._renderItemSeparatorComponent}
-                ListEmptyComponent={this._renderEmptyView}
-                // 是一个可选的优化，用于避免动态测量内容；+50是加上Header的高度
-                getItemLayout={(data, index) => ( {length: 40, offset: (40 + 1) * index + 50, index} )}
-            />
+            <Container>
+                <FlatList
+                    style={styles.containerStyle}
+                    ref={ref => this.flatList = ref}
+                    data={sourceData}
+                    extraData={selected}
+                    keyExtractor={this._keyExtractor}
+                    renderItem={this._renderItem}
+                    ListHeaderComponent={this._renderHeader}
+                    ItemSeparatorComponent={this._renderItemSeparatorComponent}
+                    ListEmptyComponent={this._renderEmptyView}
+                    // 是一个可选的优化，用于避免动态测量内容；+50是加上Header的高度
+                    getItemLayout={(data, index) => ( {length: 40, offset: (40 + 1) * index + 50, index} )}
+                />
+            </Container>
         );
     }
 

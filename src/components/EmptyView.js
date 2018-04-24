@@ -4,17 +4,13 @@ import {
     View
 } from 'react-native'
 
-class EmptyView extends PureComponent {
-
-    render() {
-        return <View style={styles.containerStyle}>
-            <Text style={styles.titleStyle}>暂无记录</Text>
-        </View>
-    }
+const EmptyView = () => {
+    return <View style={styles.containerStyle}>
+        <Text style={styles.titleStyle}>暂无记录</Text>
+    </View>
 }
 
 const styles = {
-
     containerStyle: {
         flex: 1,
         alignItems: 'center',

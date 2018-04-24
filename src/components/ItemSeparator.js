@@ -3,13 +3,8 @@ import {
     View
 } from 'react-native'
 
-class ItemSeparator extends PureComponent {
-
-    render() {
-        return (
-            <View style={styles.line}/>
-        );
-    }
+const ItemSeparator = () => {
+    return <View style={styles.line}/>
 }
 
 const styles = {

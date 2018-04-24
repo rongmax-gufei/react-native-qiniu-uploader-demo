@@ -7,6 +7,7 @@ import ItemSeparator from './ItemSeparator'
 import InfoItem from './InfoItem'
 import StatusModal from './StatusModal'
 import UploadHeader from './UploadHeader'
+import UploadListItem from './UploadListItem'
 
 export {
     Button,
@@ -17,5 +18,6 @@ export {
     ItemSeparator,
     InfoItem,
     StatusModal,
-    UploadHeader
+    UploadHeader,
+    UploadListItem
 }
