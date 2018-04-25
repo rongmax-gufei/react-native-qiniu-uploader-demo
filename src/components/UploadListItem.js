@@ -7,7 +7,7 @@ import {
     Platform
 } from 'react-native'
 
-const UploadListItem = ({fileName, fileSize, uploadStatus}) => {
+const UploadListItem = ({id, fileName, fileSize, uploadStatus, onPressItem}) => {
 
     // 0:未开始 1：进行中 2：已暂停 3：已完成
     let _uploadStatus = ''
@@ -16,7 +16,7 @@ const UploadListItem = ({fileName, fileSize, uploadStatus}) => {
             _uploadStatus = '未开始'
             break
         case 1:
-            _uploadStatus = '进行中'
+            _uploadStatus = '上传中'
             break
         case 2:
             _uploadStatus = '已暂停'
@@ -27,7 +27,7 @@ const UploadListItem = ({fileName, fileSize, uploadStatus}) => {
     }
 
     _onPress = () => {
-        this.props.onPressItem(this.props.id);
+        uploadStatus !== 3 && onPressItem(id);
     };
 
     return (
@@ -40,6 +40,7 @@ const UploadListItem = ({fileName, fileSize, uploadStatus}) => {
 
             <TouchableOpacity
                 {...this.props}
+
                 onPress={this._onPress}
                 style={styles.rightWrapperStyle}
             >

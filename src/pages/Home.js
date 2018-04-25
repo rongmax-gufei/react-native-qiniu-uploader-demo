@@ -6,22 +6,15 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {
-    Button,
-    Text,
-    TouchableOpacity,
-    FlatList,
-    View
-} from 'react-native'
-
-import {observer, inject} from 'mobx-react/native'
-
+import {FlatList} from 'react-native'
 import {Modal, Toast} from 'antd-mobile'
-
 import ImagePicker from 'react-native-image-picker'
-
 import {QNEngine} from '../libs/QNEngine'
+
 import {Container, EmptyView, ItemSeparator, UploadListItem, UploadHeader} from '../components/index'
+
+import * as mobx from 'mobx'
+import {observer, inject} from 'mobx-react/native'
 
 const operation = Modal.operation;
 
@@ -29,60 +22,101 @@ const operation = Modal.operation;
 @observer
 export default class Home extends Component {
 
-    dataContainer = [];
+    sources = []
+
+    componentDidMount() {
+        //所有的原生通知统一管理
+        QNEngine.eventEmitter({
+            onProgress: (data) => {
+                const newData = mobx.toJS(this.props.UploadStore.data)
+                newData.map((item) => {
+                    if (item.id === data.id) {
+                        item.percent = data.percent
+                        item.uploadStatus = 1
+                    }
+                })
+                this.props.UploadStore.setData(newData)
+            },
+            onComplete: (data) => {
+                const newData = mobx.toJS(this.props.UploadStore.data)
+                newData.map((item) => {
+                    if (item.id === data.id) {
+                        item.percent = data.percent
+                        item.uploadStatus = 3
+                    }
+                })
+                this.props.UploadStore.setData(newData)
+            },
+            onError: (data) => {
+                console.log(data);
+                switch (data.code) {
+                    case '-2':
+                        Toast.info('任务已暂停', 2)
+                        break;
+                    default:
+                        Toast.fail('错误：' + data.msg, 2)
+                        break;
+                }
+            }
+        })
+    }
 
     componentWillUnmount() {
         QNEngine.removeEmitter()
     }
 
-    componentDidMount() {
-
-        //所有的原生通知统一管理
-        QNEngine.eventEmitter({
-            onProgress: (data) => {
-                console.log(data);
-                // this.setState({
-                //     percent: data.percent,
-                //     taskStatus: 1,
-                //     taskText: '上传中（' + data.percent + '），点击可暂停'
-                // });
-            },
-            onComplete: (data) => {
-                console.log(data)
-                // this.resetStatus()
-                // Toast.success('上传完成', 2)
-            },
-            onError: (data) => {
-                console.log(data);
-                // switch (data.code) {
-                //     case '-2':
-                //         Toast.info('任务已暂停', 2)
-                //         break;
-                //     default:
-                //         Toast.fail('错误：'+data.msg, 2)
-                //         break;
-                // }
-            }
-        })
-    }
-
     _keyExtractor = (item, index) => index;
 
     _onPressItem = (id) => {
-        // this.setState((state) => {
-        //     const selected = new Map(state.selected);
-        //     selected.set(id, !selected.get(id));
-        //     return {selected}
-        // });
 
-        // CustomToastAndroid.show(JSON.stringify(id), CustomToastAndroid.SHORT);
+        let data = null
+
+        this.props.UploadStore.data.map(item => {
+            if (item.id === id)
+                data = item
+        })
+
+        switch (data.uploadStatus) {
+            case 0:
+                // 未开始上传
+                this.props.UserInfoStore.getUploadToken(null, resp => {
+                    /**
+                     * @param id:文件id
+                     * @param filePath:文件路径
+                     * @param upKey:文件名（唯一，不能重复）
+                     * @param upToken:上传token，服务端获取或本地生成
+                     * @param zone:上传至指定区域：华东1,华北2,华南3,北美4
+                     */
+                    const params = {
+                        id: data.id,
+                        filePath: data.filePath,
+                        upKey: 'file_' + Math.random(),
+                        upToken: resp.uptoken,
+                        zone: 1
+                    }
+                    QNEngine.setParams(params)
+                    QNEngine.startTask()
+                })
+                break
+            case 1:
+                // 正在上传，点击后暂停
+                QNEngine.pauseTask()
+                const newData = mobx.toJS(this.props.UploadStore.data)
+                newData.map((item) => {
+                    if (item.id === id) {
+                        item.uploadStatus = 2
+                    }
+                })
+                this.props.UploadStore.setData(newData)
+                break;
+            case 2:
+                // 已经暂停，点击后恢复上传
+                QNEngine.resumeTask()
+                break
+        }
     };
 
     _doActionToChooseFile = () => {
-
-        const {
-            setSourceData,
-        } = this.props.UploadStore
 
         operation([
             {
@@ -106,15 +140,15 @@ export default class Home extends Component {
                             return
 
                         let obj = {
-                            id: Math.random(),
+                            id: String(Math.random()),
                             fileName: response.fileName,
                             fileSize: response.fileSize,
                             filePath: response.uri,
-                            uploadStatus: 0
+                            uploadStatus: 0,
+                            percent: ''
                         };
-                        this.dataContainer.push(obj);
-
-                        setSourceData(this.dataContainer)
+                        this.sources.push(obj)
+                        this.props.UploadStore.setData(this.sources)
                     });
                 }
             },
@@ -133,7 +167,16 @@ export default class Home extends Component {
                         console.log('Response = ', response);
                         if (response.didCancel || response.error)
                             return
-
+                        let obj = {
+                            id: String(Math.random()),
+                            fileName: String(Math.random()),
+                            fileSize: '',
+                            filePath: response.uri,
+                            uploadStatus: 0,
+                            percent: ''
+                        };
+                        this.sources.push(obj)
+                        this.props.UploadStore.setData(this.sources)
                     });
                 }
             },
@@ -155,12 +198,11 @@ export default class Home extends Component {
         <EmptyView/>
     );
 
-    _renderItem = ({item}) => {
+    _renderItem = ({item, i}) => {
         return (
             <UploadListItem
                 id={item.id}
-                // onPressItem={this._onPressItem}
-                // selected={!!this.state.selected.get(item.id)}
+                onPressItem={this._onPressItem}
                 fileName={item.fileName}
                 fileSize={item.fileSize}
                 uploadStatus={item.uploadStatus}
@@ -170,18 +212,13 @@ export default class Home extends Component {
 
     render() {
 
-        const {
-            sourceData,
-            selected
-        } = this.props.UploadStore
-
         return (
             <Container>
                 <FlatList
                     style={styles.containerStyle}
                     ref={ref => this.flatList = ref}
-                    data={sourceData}
-                    extraData={selected}
+                    data={this.props.UploadStore.data}
+                    extraData={this.props.UploadStore.selected}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
                     ListHeaderComponent={this._renderHeader}
@@ -193,63 +230,6 @@ export default class Home extends Component {
             </Container>
         );
     }
-
-    // onButtonPress = () => {
-    //     let status = this.state.taskStatus
-    //     switch (status) {
-    //         case 0:
-    //             // 未开始上传和已经上传完成
-    //             const {getUploadToken} = this.props.UserInfoStore
-    //             const {setModalStatus} = this.props.StatusModalStore
-    //             setModalStatus(true)
-    //             getUploadToken(null, data => {
-    //                 /**
-    //                  * @param filePath:文件路径
-    //                  * @param upKey:文件名（唯一，不能重复）
-    //                  * @param upToken:上传token，服务端获取或本地生成
-    //                  * @param zone:上传至指定区域：华东1,华北2,华南3,北美4
-    //                  */
-    //                 const params = {
-    //                     filePath: this.state.uri,
-    //                     upKey: 'file_' + Math.random(),
-    //                     upToken:data.uptoken,
-    //                     zone: 1 //
-    //                 }
-    //                 QNEngine.setParams(params)
-    //                 QNEngine.startTask()
-    //             })
-    //             break
-    //         case 1:
-    //             // 正在上传，点击后暂停
-    //             QNEngine.pauseTask()
-    //             this.setState({
-    //                 taskStatus: 2,
-    //                 taskText: '已暂停，点击继续'
-    //             });
-    //             break;
-    //         case 2:
-    //             // 已经暂停，点击后恢复上传
-    //             QNEngine.resumeTask()
-    //             break
-    //     }
-    // }
-    //
-    // state = {
-    //     uri: null,
-    //     percent: '',
-    //     taskStatus: 0, //0:未开始 1：进行中 2：已暂停 3：已完成
-    //     taskText: '开始上传'
-    // };
-    //
-    // resetStatus() {
-    //     this.setState({
-    //         uri: null,
-    //         percent: '',
-    //         taskStatus: 0, //0:未开始 1：进行中 2：已暂停 3：已完成
-    //         taskText: '开始上传'
-    //     });
-    // }
-
 }
 
 const styles = {

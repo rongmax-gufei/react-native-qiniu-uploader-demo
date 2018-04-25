@@ -2,13 +2,13 @@ import {observable, action} from 'mobx'
 
 class Upload {
 
-    @observable sourceData
+    @observable data
     @observable selected
     @observable refreshing
 
     @action
-    setSourceData = (datas) => {
-        this.sourceData = datas
+    setData = (data) => {
+        this.data = data
     }
 
     @action
