@@ -81,11 +81,11 @@ export default class Home extends Component {
                 // 未开始上传
                 this.props.UserInfoStore.getUploadToken(null, resp => {
                     /**
-                     * @param id:文件id
-                     * @param filePath:文件路径
-                     * @param upKey:文件名（唯一，不能重复）
-                     * @param upToken:上传token，服务端获取或本地生成
-                     * @param zone:上传至指定区域：华东1,华北2,华南3,北美4
+                     * @param id       文件id
+                     * @param filePath 文件路径
+                     * @param upKey    文件名（唯一，不能重复）
+                     * @param upToken  上传token，服务端获取或本地生成
+                     * @param zone     上传至指定区域：华东1,华北2,华南3,北美4
                      */
                     const params = {
                         id: data.id,
