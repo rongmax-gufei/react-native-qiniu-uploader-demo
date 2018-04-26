@@ -1,6 +1,6 @@
 import {observable, action} from 'mobx'
 import StatusStore from './StatusModal'
-import {RESPONSE_CODE} from '../config/setting'
+import {RESPONSE_CODE} from '../config/constant'
 
 class Login {
 

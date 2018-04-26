@@ -9,12 +9,14 @@ import React, {Component} from 'react'
 import {FlatList} from 'react-native'
 import {Modal, Toast} from 'antd-mobile'
 import ImagePicker from 'react-native-image-picker'
-import {QNEngine} from '../libs/QNEngine'
 
 import {Container, EmptyView, ItemSeparator, UploadListItem, UploadHeader} from '../components/index'
 
 import * as mobx from 'mobx'
 import {observer, inject} from 'mobx-react/native'
+
+import {QNEngine} from '../libs/QNEngine'
+import {UPLOAD_FILE_STATE} from '../config/constant'
 
 const operation = Modal.operation;
 
@@ -32,7 +34,7 @@ export default class Home extends Component {
                 newData.map((item) => {
                     if (item.id === data.id) {
                         item.percent = data.percent
-                        item.uploadStatus = 1
+                        item.uploadStatus = UPLOAD_FILE_STATE.UPLOADING
                     }
                 })
                 this.props.UploadStore.setData(newData)
@@ -42,7 +44,7 @@ export default class Home extends Component {
                 newData.map((item) => {
                     if (item.id === data.id) {
                         item.percent = data.percent
-                        item.uploadStatus = 3
+                        item.uploadStatus = UPLOAD_FILE_STATE.FINISHED
                     }
                 })
                 this.props.UploadStore.setData(newData)
@@ -77,7 +79,7 @@ export default class Home extends Component {
         })
 
         switch (data.uploadStatus) {
-            case 0:
+            case UPLOAD_FILE_STATE.NOT_START:
                 // 未开始上传
                 this.props.UserInfoStore.getUploadToken(null, resp => {
                     /**
@@ -98,7 +100,7 @@ export default class Home extends Component {
                     QNEngine.startTask()
                 })
                 break
-            case 1:
+            case UPLOAD_FILE_STATE.UPLOADING:
                 // 正在上传，点击后暂停
                 QNEngine.pauseTask()
                 const newData = mobx.toJS(this.props.UploadStore.data)
@@ -109,7 +111,7 @@ export default class Home extends Component {
                 })
                 this.props.UploadStore.setData(newData)
                 break;
-            case 2:
+            case UPLOAD_FILE_STATE.PAUSE:
                 // 已经暂停，点击后恢复上传
                 QNEngine.resumeTask()
                 break
@@ -144,7 +146,7 @@ export default class Home extends Component {
                             fileName: response.fileName,
                             fileSize: response.fileSize,
                             filePath: response.uri,
-                            uploadStatus: 0,
+                            uploadStatus: UPLOAD_FILE_STATE.NOT_START,
                             percent: ''
                         };
                         this.sources.push(obj)
@@ -172,7 +174,7 @@ export default class Home extends Component {
                             fileName: String(Math.random()),
                             fileSize: '',
                             filePath: response.uri,
-                            uploadStatus: 0,
+                            uploadStatus: UPLOAD_FILE_STATE.NOT_START,
                             percent: ''
                         };
                         this.sources.push(obj)

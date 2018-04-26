@@ -2,8 +2,8 @@ import {observable, action} from 'mobx'
 
 class Upload {
 
-    @observable data
-    @observable selected
+    @observable data = []
+    @observable selected = []
     @observable refreshing
 
     @action

@@ -6,22 +6,23 @@ import {
     PixelRatio,
     Platform
 } from 'react-native'
+import {UPLOAD_FILE_STATE} from '../config/constant'
 
 const UploadListItem = ({id, fileName, fileSize, uploadStatus, onPressItem}) => {
 
     // 0:未开始 1：进行中 2：已暂停 3：已完成
     let _uploadStatus = ''
     switch (uploadStatus) {
-        case 0:
+        case UPLOAD_FILE_STATE.NOT_START:
             _uploadStatus = '未开始'
             break
-        case 1:
+        case UPLOAD_FILE_STATE.UPLOADING:
             _uploadStatus = '上传中'
             break
-        case 2:
+        case UPLOAD_FILE_STATE.PAUSE:
             _uploadStatus = '已暂停'
             break
-        case 3:
+        case UPLOAD_FILE_STATE.FINISHED:
             _uploadStatus = '已完成'
             break
     }

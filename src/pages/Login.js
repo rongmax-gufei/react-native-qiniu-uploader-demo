@@ -5,7 +5,7 @@ import icons from '../../assets/icons'
 import {Actions} from 'react-native-router-flux'
 import {observer, inject} from 'mobx-react/native'
 import {RKey} from '../routes'
-import {SYSTEM_IDS} from '../config/setting';
+import {SYSTEM_IDS} from '../config/constant';
 
 @inject('LoginStore', 'UserInfoStore', 'StatusModalStore')
 @observer
